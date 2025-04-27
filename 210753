@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global News Hub - Latest Headlines</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+            --card-bg: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --primary-color: #34495e;
+            --secondary-color: #2980b9;
+            --text-color: #ecf0f1;
+            --bg-color: #2c3e50;
+            --card-bg: #34495e;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* 12345 - AD PLACEHOLDER */
+        .header-ad {
+            background: linear-gradient(135deg, #f39c12, #e74c3c);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 15px;
+            background-color: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .news-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            height: 180px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-source {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .source-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 50%;
+            background-color: #eee;
+        }
+
+        .news-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .news-desc {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .read-more {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* 12345 - AD PLACEHOLDER */
+        .side-ad {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* 12345 - AD PLACEHOLDER */
+            .side-ad {
+                grid-column: span 1;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--secondary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Global <span>News</span> Hub</div>
+            <div class="controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="refreshBtn">Refresh News</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 12345 - AD PLACEHOLDER -->
+        <div class="header-ad">
+            Advertisement Space - 728x90
+        </div>
+
+        <div class="category-filter" id="categoryFilter">
+            <button class="category-btn active" data-category="all">All News</button>
+            <button class="category-btn" data-category="pakistan">Pakistan</button>
+            <button class="category-btn" data-category="international">International</button>
+            <button class="category-btn" data-category="business">Business</button>
+            <button class="category-btn" data-category="sports">Sports</button>
+            <button class="category-btn" data-category="technology">Technology</button>
+        </div>
+
+        <div class="news-grid" id="newsGrid">
+            <!-- News cards will be inserted here by JavaScript -->
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <!-- 12345 - AD PLACEHOLDER -->
+        <div class="side-ad">
+            Advertisement Space - 970x250
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Popular Newspapers</h3>
+                    <ul>
+                        <!-- 000000 - NEWSPAPER LINKS PLACEHOLDER -->
+                        <li><a href="https://www.dawn.com" target="_blank">Dawn</a></li>
+                        <li><a href="https://www.bbc.com/urdu" target="_blank">BBC Urdu</a></li>
+                        <li><a href="https://www.aljazeera.com" target="_blank">Al Jazeera</a></li>
+                        <li><a href="https://www.nytimes.com" target="_blank">New York Times</a></li>
+                        <li><a href="https://www.theguardian.com" target="_blank">The Guardian</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#" data-category="pakistan">Pakistan News</a></li>
+                        <li><a href="#" data-category="international">World News</a></li>
+                        <li><a href="#" data-category="business">Business</a></li>
+                        <li><a href="#" data-category="sports">Sports</a></li>
+                        <li><a href="#" data-category="technology">Technology</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Global News Hub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample news data (in a real app, this would come from RSS feeds)
+        const newsData = [
+            {
+                title: "Pakistan's Economic Growth Exceeds Expectations",
+                description: "The latest reports show Pakistan's GDP growth has surpassed IMF projections, signaling economic recovery.",
+                source: "Dawn",
+                category: "pakistan",
+                date: "2 hours ago",
+                image: "https://via.placeholder.com/600x400?text=Dawn+News",
+                link: "000000" // Replace with actual link
+            },
+            {
+                title: "Global Climate Summit Reaches Historic Agreement",
+                description: "World leaders have agreed on unprecedented measures to combat climate change in the latest summit.",
+                source: "BBC News",
+                category: "international",
+                date: "4 hours ago",
+                image: "https://via.placeholder.com/600x400?text=BBC",
+                link: "000000" // Replace with actual link
+            },
+            {
+                title: "Tech Giant Unveils Revolutionary AI Assistant",
+                description: "The new AI system can understand and respond to complex human emotions and needs.",
+                source: "TechCrunch",
+                category: "technology",
+                date: "6 hours ago",
+                image: "https://via.placeholder.com/600x400?text=Tech",
+                link: "000000" // Replace with actual link
+            },
+            {
+                title: "Stock Markets Reach All-Time High",
+                description: "Global markets surge as inflation fears ease and consumer confidence grows.",
+                source: "Financial Times",
+                category: "business",
+                date: "8 hours ago",
+                image: "https://via.placeholder.com/600x400?text=Business",
+                link: "000000" // Replace with actual link
+            },
+            {
+                title: "Pakistan Wins Cricket Series Against Rivals",
+                description: "The national team clinches victory in the final match with an outstanding performance.",
+                source: "ESPN Cricinfo",
+                category: "sports",
+                date: "10 hours ago",
+                image: "https://via.placeholder.com/600x400?text=Sports",
+                link: "000000" // Replace with actual link
+            },
+            {
+                title: "New Education Policy Announced",
+                description: "The government reveals comprehensive reforms for the education sector.",
+                source: "The News",
+                category: "pakistan",
+                date: "12 hours ago",
+                image: "https://via.placeholder.com/600x400?text=Education",
+                link: "000000" // Replace with actual link
+            }
+        ];
+
+        // DOM elements
+        const newsGrid = document.getElementById('newsGrid');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const themeToggle = document.getElementById('themeToggle');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayNews(newsData);
+            setupEventListeners();
+        });
+
+        // Display news function
+        function displayNews(newsItems) {
+            newsGrid.innerHTML = '';
+            
+            if (newsItems.length === 0) {
+                newsGrid.innerHTML = '<p>No news found for this category.</p>';
+                return;
+            }
+            
+            newsItems.forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.dataset.category = item.category;
+                
+                newsCard.innerHTML = `
+                    <div class="news-image" style="background-image: url('${item.image}')"></div>
+                    <div class="news-content">
+                        <div class="news-source">
+                            <div class="source-logo"></div>
+                            ${item.source}
+                        </div>
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-desc">${item.description}</p>
+                        <div class="news-meta">
+                            <span>${item.date}</span>
+                            <a href="${item.link}" class="read-more" target="_blank">Read More →</a>
+                        </div>
+                    </div>
+                `;
+                
+                newsGrid.appendChild(newsCard);
+            });
+        }
+
+        // Filter news by category
+        function filterNews(category) {
+            if (category === 'all') {
+                displayNews(newsData);
+                return;
+            }
+            
+            const filteredNews = newsData.filter(item => item.category === category);
+            displayNews(filteredNews);
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Category filter buttons
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterNews(btn.dataset.category);
+                });
+            });
+            
+            // Footer category links
+            document.querySelectorAll('.footer-section a[data-category]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = link.dataset.category;
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelector(`.category-btn[data-category="${category}"]`).classList.add('active');
+                    filterNews(category);
+                });
+            });
+            
+            // Theme toggle
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+            });
+            
+            // Refresh button
+            refreshBtn.addEventListener('click', () => {
+                newsGrid.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                `;
+                
+                // Simulate loading new data
+                setTimeout(() => {
+                    const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+                    filterNews(activeCategory);
+                }, 1000);
+            });
+        }
+
+        // Auto-refresh every hour (3600000 ms)
+        setInterval(() => {
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            filterNews(activeCategory);
+        }, 3600000);
+    </script>
+</body>
+</html>
